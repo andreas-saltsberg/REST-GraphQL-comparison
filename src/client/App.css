@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  height: 100%;
+}
+
+[data-reactroot] {
+  height: 100%;
+}
+
+html {
+  height: 100%;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#root {
+  height: 100%;
+}
+
+.public_fixedDataTableCell_main {
+    border: none !important;
+}
+
+.modals.dimmer .ui.scrolling.modal.no-scroll {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.ui.selectable.inverted.table tbody tr.active:hover {
+    background-color: #2574A9 !important;
+}
