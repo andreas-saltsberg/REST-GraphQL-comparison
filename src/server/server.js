@@ -24,10 +24,11 @@ const connect = require( './lib/connect' );
 
 app.use( connect.connect );
 app.use('/api/', general);
-app.use('/graphql', graphqlHTTP({
+app.use('/graphql', graphqlHTTP((request) => ({
     schema: schema,
     graphiql: true,
-}));
+    request
+})));
 app.use( connect.close );
 
 

@@ -27,17 +27,17 @@ router.get('/graphql', function* () {
 });
 
 router.post('/generate-users',( request, response ) => {
-    let colors = ["#2980b9", "#e74c3c", "#c0392b", "#8e44ad", "#9b59b6", "#2c3e50", "#27ae60", "#f39c12", "#16a085"];
+    let colors = ["red","orange","yellow","olive","green","teal","blue","violet","purple","pink","brown","grey","black"];
     let imageUrls = ["https://semantic-ui.com/images/avatar/large/elliot.jpg", "https://semantic-ui.com/images/avatar/large/jenny.jpg",
     "https://semantic-ui.com/images/avatar/large/chris.jpg", "https://semantic-ui.com/images/avatar/large/joe.jpg", "https://semantic-ui.com/images/avatar/large/stevie.jpg",
     "https://semantic-ui.com/images/avatar/large/christian.jpg", "https://semantic-ui.com/images/avatar/large/steve.jpg", "http://semantic-ui.com/images/avatar/large/ade.jpg",
     "https://semantic-ui.com/examples/assets/images/avatar/tom.jpg", "https://semantic-ui.com/images/avatar/large/daniel.jpg", "https://semantic-ui.com/images/avatar/large/justen.jpg"];
 
     r.db("sample_data").table("users")
-        .insert(generateUsers(names.first_names, names.last_names, colors, imageUrls))
+        .delete()
         .run( request._rdb )
         .then( result => {
-            response.send("Done");
+            r.db("sample_data").table("users").insert(generateUsers(names.first_names, names.last_names, colors, imageUrls)).run(request._rdb).then(result => response.send("Done"))
         } );
 });
 
@@ -50,9 +50,9 @@ function generateUsers(firstNames, lastNames, colors, profileImages) {
             var user = {
                 first_name: firstNames[i],
                 last_name: lastNames[j],
-                email: firstNames[i] + "." + lastNames[j] + "@gmail.com",
+                email: (firstNames[i] + "." + lastNames[j] + "@gmail.com").toLowerCase(),
                 user_index: index,
-                password: "asd" + firstNames[i] + "asd" + lastNames[j],
+                password: ("asd" + firstNames[i] + "asd" + lastNames[j]).toLowerCase(),
                 color: colors[Math.floor(Math.random()*colors.length)],
                 profileImage: profileImages[Math.floor(Math.random()*profileImages.length)],
             };

@@ -17,6 +17,7 @@
     "moment": "^2.18.1",
     "morgan": "^1.8.2",
     "react": "^15.5.4",
+    "react-apollo": "^1.4.16",
     "react-bootstrap": "^0.31.0",
     "react-bootstrap-date-picker": "^5.0.1",
     "react-dom": "^15.5.4",

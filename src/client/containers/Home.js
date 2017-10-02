@@ -1,13 +1,16 @@
 import React from 'react';
 import UserCard from "../components/Card";
+import FriendsList from "../components/FriendsList"
 import styled from "styled-components"
+import { gql, graphql } from 'react-apollo';
+import {Divider} from "semantic-ui-react";
 
 const Root = styled.div`
 	display: grid;
     grid-gap: 50px;
     background-color: #fff;
     color: #444;
-    grid-template-columns: 0.5fr 2fr 0.5fr;
+    grid-template-columns: 0.25fr 2fr 1fr;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -19,8 +22,6 @@ const Root = styled.div`
 `;
 
 const UsersGrid = styled.div`
-    // background-color: #444;
-    // color: #fff;
     border-radius: 5px;
     padding: 20px;
     font-size: 150%;
@@ -38,8 +39,6 @@ const UsersGrid = styled.div`
 
 
 const Friends = styled.div`
-    // background-color: #444;
-    // color: #fff;
     border-radius: 5px;
     padding: 20px;
     font-size: 150%;
@@ -64,51 +63,57 @@ const StyledUserCardWrapper = styled.div`
     margin-bottom: 20px;
     display: flex;
     justify-content: center;
+    margin-left: 20px;
 `;
 
-const Home = () => (
-    <Root>
+
+@graphql(gql`
+query RootQueryType {    
+  all_users(limit: 100) {
+    first_name
+    last_name
+    profileImage
+    color
+    user_index
+  },
+  actual_user(id: 100) {
+    first_name,
+    last_name,
+    friends {
+        first_name,
+        last_name,
+        color,
+        profileImage,
+        id
+    }
+  }
+}
+`)
+export default class Home extends React.Component {
+    render() {
+        const users = this.props.data.all_users || [];
+        const user = this.props.data.actual_user || {};
+        return (
+                <Root>
         <SidebarMenu></SidebarMenu>
         <UsersGrid>
-            <StyledUserCardWrapper>
-                <UserCard/>
-            </StyledUserCardWrapper>
-            <StyledUserCardWrapper>
-                <UserCard/>
-            </StyledUserCardWrapper>
-            <StyledUserCardWrapper>
-                <UserCard/>
-            </StyledUserCardWrapper>
-            <StyledUserCardWrapper>
-                <UserCard/>
-            </StyledUserCardWrapper>
-            <StyledUserCardWrapper>
-                <UserCard/>
-            </StyledUserCardWrapper>
-            <StyledUserCardWrapper>
-                <UserCard/>
-            </StyledUserCardWrapper>
-            <StyledUserCardWrapper>
-                <UserCard/>
-            </StyledUserCardWrapper>
-            <StyledUserCardWrapper>
-                <UserCard/>
-            </StyledUserCardWrapper>
-            <StyledUserCardWrapper>
-                <UserCard/>
-            </StyledUserCardWrapper>
-            <StyledUserCardWrapper>
-                <UserCard/>
-            </StyledUserCardWrapper>
-            <StyledUserCardWrapper>
-                <UserCard/>
-            </StyledUserCardWrapper>
+            {users && users.map(item => {
+                return item.first_name ? <StyledUserCardWrapper key={item.user_index}>
+                    <UserCard first_name={item.first_name} last_name={item.last_name} color={item.color} image={item.profileImage} />
+                </StyledUserCardWrapper> : "";
+            })}
         </UsersGrid>
-        <Friends><h3>Friends</h3></Friends>
+        <Friends>
+            <h3>{user.first_name + " " + user.last_name}</h3>
+            <FriendsList friends={user.friends}/>
+            </Friends>
 
     </Root>
+        );
+    }
+}
 
-);
 
 
-export default Home;
+
+// export default Home;

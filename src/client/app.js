@@ -7,12 +7,22 @@ import {
 import './App.css';
 import Home from "./containers/Home";
 
+import { ApolloClient, createNetworkInterface, ApolloProvider } from 'react-apollo';
+
+const client = new ApolloClient({
+    networkInterface: createNetworkInterface({
+        uri: 'http://localhost:3000/graphql',
+    }),
+});
+
 const App = () => (
-    <BrowserRouter>
-        <div>
-            <Route exact path="/" component={Home}/>
-        </div>
-    </BrowserRouter>
+    <ApolloProvider client={client}>
+        <BrowserRouter>
+            <div>
+                <Route exact path="/" component={Home}/>
+            </div>
+        </BrowserRouter>
+    </ApolloProvider>
 );
 
 render(

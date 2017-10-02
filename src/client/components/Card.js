@@ -1,29 +1,33 @@
 import React from 'react'
 import { Card, Icon, Image } from 'semantic-ui-react'
 
-const UserCard = () => (
-    <Card color='blue'>
-        <Image src='https://react.semantic-ui.com/assets/images/avatar/large/elliot.jpg' />
-        <Card.Content>
-            <Card.Header>
-                Matthew
-            </Card.Header>
-            <Card.Meta>
+export default class UserCard extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        return <Card color={this.props.color}>
+            <Image src={this.props.image}/>
+            <Card.Content>
+                <Card.Header>
+                    {this.props.first_name}
+                </Card.Header>
+                <Card.Meta>
         <span className='date'>
           Joined in 2015
         </span>
-            </Card.Meta>
-            <Card.Description>
-                Matthew is a musician living in Nashville.
-            </Card.Description>
-        </Card.Content>
-        <Card.Content extra>
-            <a>
-                <Icon name='user' />
-                22 Friends
-            </a>
-        </Card.Content>
-    </Card>
-)
-
-export default UserCard;
+                </Card.Meta>
+                <Card.Description>
+                    {this.props.first_name + " " + this.props.last_name} is awesome!
+                </Card.Description>
+            </Card.Content>
+            <Card.Content extra>
+                <a>
+                    <Icon name='user'/>
+                    22 Friends
+                </a>
+            </Card.Content>
+        </Card>
+    }
+}
