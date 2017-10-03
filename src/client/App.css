@@ -40,3 +40,7 @@ html {
 div.inline-block {
     display: inline-block;
 }
+
+.ui.card {
+    display: inline-block !important;
+}
