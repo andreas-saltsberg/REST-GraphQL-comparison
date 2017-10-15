@@ -4,6 +4,7 @@ import FriendsList from "../components/FriendsList"
 import styled from "styled-components"
 import { gql, graphql } from 'react-apollo';
 import {Divider} from "semantic-ui-react";
+import MasonryList from "../components/MasonryList";
 
 const Root = styled.div`
 	display: grid;
@@ -91,17 +92,18 @@ query RootQueryType {
 `)
 export default class Home extends React.Component {
     render() {
-        const users = this.props.data.all_users || [];
+        // const users = this.props.data.all_users || [];
         const user = this.props.data.actual_user || {};
         return (
                 <Root>
         <SidebarMenu></SidebarMenu>
         <UsersGrid>
-            {users && users.map(item => {
-                return item.first_name ? <StyledUserCardWrapper key={item.user_index}>
-                    <UserCard first_name={item.first_name} last_name={item.last_name} color={item.color} image={item.profileImage} />
-                </StyledUserCardWrapper> : "";
-            })}
+            {/*{users && users.map(item => {*/}
+                {/*return item.first_name ? <StyledUserCardWrapper key={item.user_index}>*/}
+                    {/*<UserCard first_name={item.first_name} last_name={item.last_name} color={item.color} image={item.profileImage} />*/}
+                {/*</StyledUserCardWrapper> : "";*/}
+            {/*})}*/}
+            <MasonryList/>
         </UsersGrid>
         <Friends>
             <h3>{user.first_name + " " + user.last_name}</h3>

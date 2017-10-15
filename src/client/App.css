@@ -43,4 +43,10 @@ div.inline-block {
 
 .ui.card {
     display: inline-block !important;
+    margin-top: 2px !important;
+    margin-left: 2px !important;
+}
+
+body > div {
+    height: 100%;
 }
