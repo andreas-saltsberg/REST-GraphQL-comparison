@@ -28,3 +28,25 @@ html {
 .ui.selectable.inverted.table tbody tr.active:hover {
     background-color: #2574A9 !important;
 }
+
+.ui.list>.item.inline {
+    display: inline-block;
+}
+
+.ui.list {
+    display: inline-grid;
+}
+
+div.inline-block {
+    display: inline-block;
+}
+
+.ui.card {
+    display: inline-block !important;
+    margin-top: 2px !important;
+    margin-left: 2px !important;
+}
+
+body > div {
+    height: 100%;
+}
