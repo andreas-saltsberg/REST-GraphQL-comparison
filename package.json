@@ -24,6 +24,7 @@
     "react-md": "^1.1.0-alpha-5",
     "react-router-dom": "^4.1.1",
     "react-virtualized": "^9.10.1",
+    "rethinkdb": "^2.3.3",
     "semantic-ui-react": "^0.71.3",
     "styled-components": "^2.1.2"
   },
