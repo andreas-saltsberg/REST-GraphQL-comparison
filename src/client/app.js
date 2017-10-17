@@ -10,10 +10,16 @@ import Home from "./containers/Home";
 import { ApolloClient, createNetworkInterface, ApolloProvider } from 'react-apollo';
 import AllUsersList from "./components/AllUsersList";
 import MasonryList from "./components/MasonryList";
+import ComparisonPage from "./containers/ComparisonPage";
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
     networkInterface: createNetworkInterface({
         uri: 'http://localhost:3000/graphql',
+        defaultOptions: {
+            watchQuery: {
+                fetchPolicy: 'cache-and-network',
+            },
+        }
     }),
 });
 
@@ -23,6 +29,7 @@ const App = () => (
             <div>
                 <Route exact path="/" component={Home}/>
                 <Route exact path="/masonry" component={MasonryList}/>
+                <Route exact path="/comparison" component={ComparisonPage}/>
             </div>
         </BrowserRouter>
     </ApolloProvider>

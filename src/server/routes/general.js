@@ -1,4 +1,5 @@
 'use strict';
+const db = require('../schemas/queries');
 const router = require('express').Router();
 const graphql = require("graphql");
 const schema = require('../schemas/schema');
@@ -39,6 +40,10 @@ router.post('/generate-users',( request, response ) => {
         .then( result => {
             r.db("sample_data").table("users").insert(generateUsers(names.first_names, names.last_names, colors, imageUrls)).run(request._rdb).then(result => response.send("Done"))
         } );
+});
+
+router.get("/getAllUsers", (request, response) => {
+   db.getAllUsers().then(result => response.send(result));
 });
 
 function generateUsers(firstNames, lastNames, colors, profileImages) {

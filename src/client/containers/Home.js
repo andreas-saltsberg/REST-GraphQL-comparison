@@ -5,6 +5,7 @@ import styled from "styled-components"
 import { gql, graphql } from 'react-apollo';
 import {Divider} from "semantic-ui-react";
 import MasonryList from "../components/MasonryList";
+import AllUsersList from "../components/AllUsersList";
 
 const Root = styled.div`
 	display: grid;
@@ -104,6 +105,12 @@ export default class Home extends React.Component {
                 {/*</StyledUserCardWrapper> : "";*/}
             {/*})}*/}
             <MasonryList/>
+            {/*<AllUsersList users={users}/>*/}
+            {/*{users && users.map(item => {*/}
+                {/*return item.first_name ? <StyledUserCardWrapper key={item.user_index}>*/}
+                    {/*<UserCard first_name={item.first_name} last_name={item.last_name} color={item.color} image={item.profileImage} />*/}
+                {/*</StyledUserCardWrapper> : "";*/}
+            {/*})}*/}
         </UsersGrid>
         <Friends>
             <h3>{user.first_name + " " + user.last_name}</h3>

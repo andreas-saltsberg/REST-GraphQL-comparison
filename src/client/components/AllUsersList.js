@@ -1,7 +1,7 @@
 import React from 'react'
 import { Divider } from 'semantic-ui-react'
 import FriendsItem from "./FriendsItem";
-import {AutoSizer, CellMeasurer, InfiniteLoader, List} from "react-virtualized";
+import {AutoSizer, CellMeasurer, InfiniteLoader, List, WindowScroller} from "react-virtualized";
 import {withApollo, gql, graphql} from 'react-apollo';
 import UserCard from "./Card";
 
@@ -11,7 +11,7 @@ export default class AllUsersList extends React.Component {
         super(props);
 
         this.state = {
-            users: [],
+            users: this.props.users,
         };
 
     }
@@ -20,30 +20,31 @@ export default class AllUsersList extends React.Component {
         const { users } = this.state;
         const BOX_WIDTH = 450;
         const BOX_HEIGHT = 450;
-        return <div>
+        return <div style={{ display: "flex", flex: '1 1 auto' }}>
             <InfiniteLoader
                 isRowLoaded={this._isRowLoaded}
                 loadMoreRows={this._loadRows}
                 rowCount={users.length + 1}>
                 {({onRowsRendered, registerChild}) =>
-                    <AutoSizer disableHeight>
-                    {({ width }) => {
-                        const numberOfBoxesPerRow = Math.floor(width / BOX_WIDTH);
-                        const rowCount = Math.ceil(users.length + 1 / 3)
+                    <WindowScroller>
+                        {({ height, isScrolling, scrollTop }) => (
+                                <AutoSizer>
+                                    {({ width, height }) => (
+                                        <List
+                                            scrollTop={scrollTop}
+                                            height={height}
+                                            onRowsRendered={onRowsRendered}
+                                            overscanRowCount={1}
+                                            rowCount={666}
+                                            rowHeight={BOX_HEIGHT}
+                                            rowRenderer={this._rowRenderer}
+                                            width={width}
+                                        />
+                                    )}
+                                </AutoSizer>
 
-                        return <List
-                            height={701}
-                            onRowsRendered={onRowsRendered}
-                            overscanRowCount={1}
-                            rowCount={rowCount}
-                            rowHeight={BOX_HEIGHT}
-                            rowRenderer={this._rowRenderer}
-                            width={width}
-                        />
-                    }}
-                    </AutoSizer>
-
-
+                        )}
+                    </WindowScroller>
                 }
             </InfiniteLoader>
         </div>
@@ -70,6 +71,7 @@ export default class AllUsersList extends React.Component {
         this.props.client.query({
             query: UsersQuery,
         }).then((data) => {
+            console.log(data.data.all_users);
             this.setState({users: this.state.users.concat(data.data.all_users)})
         }).catch((err) => {
             console.log('catch', err)
@@ -88,19 +90,22 @@ export default class AllUsersList extends React.Component {
 
 
     _isRowLoaded = ({ index }) => {
-        return index < this.state.users.length;
+        return index < this.state.users.length / 3;
     };
 
     _rowRenderer = ({ index, isScrolling, key, parent, style }) => {
         const { users } = this.state;
 
         let content;
+        index = index * 3;
 
         if (index >= users.length) {
             content = <span>Loading</span>;
         } else {
-            const user = users[index];
-            content = (<div><UserCard image={user.profileImage} first_name={user.first_name} last_name={user.last_name}/> <UserCard image={user.profileImage} first_name={user.first_name} last_name={user.last_name}/> <UserCard image={user.profileImage} first_name={user.first_name} last_name={user.last_name}/></div>);
+            const user1 = users[index];
+            const user2 = users.length > index + 1 ? users[index + 1] : undefined;
+            const user3 = users.length > index + 2 ? users[index + 2] : undefined;
+            content = (<div><UserCard image={user1.profileImage} first_name={user1.first_name} last_name={user1.last_name}/> <UserCard image={user2.profileImage} first_name={user2.first_name} last_name={user2.last_name}/> <UserCard image={user3.profileImage} first_name={user3.first_name} last_name={user3.last_name}/></div>);
         }
 
          return (
