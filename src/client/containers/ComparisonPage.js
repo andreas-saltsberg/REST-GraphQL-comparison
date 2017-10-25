@@ -1,70 +1,70 @@
 import React from 'react';
 
-import {gql, graphql, withApollo} from 'react-apollo';
-import {Button, Progress} from "semantic-ui-react";
-import axios from 'axios';
-import * as performance from "moment";
-import {client} from "../app";
+import styled from "styled-components"
+import AllQueryFields from "../components/query_test/AllQueryFields";
 
-@withApollo
+const Root = styled.div`
+    display: grid;
+    grid-gap: 25px;
+    background-color: #fff;
+    color: #444;
+    grid-template-columns: 1fr 1fr;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding-left: 10%;
+    padding-right: 10%;
+         
+    @media screen and (max-width: 768px) {
+        grid-gap: 2px;
+        grid-template-columns: 1fr;
+    }
+`;
+
+const Container = styled.div`
+    padding: 10px;
+    text-align: center;
+`;
+
+const Header = styled.div`
+    padding: 10px;
+    grid-column: 1/3;
+    text-align: center;
+    align-self: center;
+    
+    @media screen and (max-width: 768px) {
+        grid-column: 1;
+    }
+`;
+
 export default class ComparisonPage extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            graphQlBtnName: "Fetch with GraphQL",
-            RESTBtnName: "Fetch with REST"
-        };
-
-        this.fetchWithGraphQl = this.fetchWithGraphQl.bind(this);
-        this.fetchWithREST=  this.fetchWithREST.bind(this);
-    }
-
-    fetchWithGraphQl() {
-        const UsersQuery = gql`
-            query RootQueryType {    
-              all_users {
-                first_name
-                last_name
-                profileImage
-                color
-                user_index
-                email
-                id
-              },
-            }`;
-
-        const start = performance.now();
-        client.networkInterface.query({ // Bad implementation, this is used to bypass caching
-            query: UsersQuery,
-        }).then((data) => {
-            const end = performance.now();
-            this.setState({
-                graphQlBtnName : "GraphQL: " + (end-start) + " ms, " + data.data.all_users.length + " rows"
-            });
-        }).catch((err) => {
-            console.log('catch', err)
-        });
-    }
-
-    fetchWithREST() {
-        const start = performance.now();
-        axios.get("http://localhost:3000/api/getAllUsers").then(result => {
-                const end = performance.now();
-                this.setState({
-                    RESTBtnName: "REST: " + (end-start) + " ms, " + result.data.length + " rows"
-                });
-        });
     }
 
     render() {
         return (
-            <div>
-                <Progress percent={100} indicating />
-                <Button color="red" onClick={this.fetchWithGraphQl}>{this.state.graphQlBtnName}</Button>
-                <Button color="blue" onClick={this.fetchWithREST}>{this.state.RESTBtnName}</Button>
-            </div>
+            <Root>
+                <Header>
+                    <h2>REST vs GraphQL</h2>
+                </Header>
+                <Container>
+                    <AllQueryFields name="All Fields" id={10}/>
+                </Container>
+                <Container>
+                    <AllQueryFields name="One Field" id={1}/>
+                </Container>
+                <Container>
+                    <AllQueryFields name="Two Fields" id={2}/>
+                </Container>
+                <Container>
+                    <AllQueryFields name="Three Fields" id={3}/>
+                </Container>
+                <Container>
+                    <AllQueryFields name="Four Fields" id={4}/>
+                </Container>
+            </Root>
         );
     }
 }
