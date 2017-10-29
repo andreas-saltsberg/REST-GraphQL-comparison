@@ -42,8 +42,22 @@ router.post('/generate-users',( request, response ) => {
         } );
 });
 
+router.get('/generate-gibberish',( request, response ) => {
+
+    r.db("sample_data").table("gibberish")
+        .delete()
+        .run( request._rdb )
+        .then( result => {
+            r.db("sample_data").table("gibberish").insert(generateGibberish()).run(request._rdb).then(result => response.send("Done"))
+        } );
+});
+
 router.get("/getAllUsers", (request, response) => {
    db.getAllUsers().then(result => response.send(result));
+});
+
+router.get("/gibberish", (request, response) => {
+    db.getGibberish().then(result => response.send(result));
 });
 
 function generateUsers(firstNames, lastNames, colors, profileImages) {
@@ -69,6 +83,33 @@ function generateUsers(firstNames, lastNames, colors, profileImages) {
     }
 
     return users;
+}
+
+
+function generateGibberish() {
+    var data = [];
+    for (var i = 0; i < 40000; i++) {
+        data.push({
+            "field1": "randomtext_randomtext_randomtext",
+            "field2": "randomtext_randomtext_randomtext",
+            "field3": "randomtext_randomtext_randomtext",
+            "field4": "randomtext_randomtext_randomtext",
+            "field5": "randomtext_randomtext_randomtext",
+            "field6": "randomtext_randomtext_randomtext",
+            "field7": "randomtext_randomtext_randomtext",
+            "field8": "randomtext_randomtext_randomtext",
+            "field9": "randomtext_randomtext_randomtext",
+            "field10": "randomtext_randomtext_randomtext",
+            "field11": "randomtext_randomtext_randomtext",
+            "field12": "randomtext_randomtext_randomtext",
+            "field13": "randomtext_randomtext_randomtext",
+            "field14": "randomtext_randomtext_randomtext",
+            "field15": "randomtext_randomtext_randomtext",
+            "field16": "randomtext_randomtext_randomtext"
+        });
+    }
+
+    return data;
 }
 
 module.exports = {router};

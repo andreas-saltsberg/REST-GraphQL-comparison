@@ -11,6 +11,81 @@ const {
 
 const db = require('./queries');
 
+var gibberish = new GraphQLObjectType({
+    name: "Gibberish",
+    description: "Gibberish",
+    fields: () => ({
+        id: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: "Generated ID by RDB"
+        },
+        field1: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: "Random field"
+        },
+        field2: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: "Random field"
+        },
+        field3: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: "Random field"
+        },
+        field4: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: "Random field"
+        },
+        field5: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: "Random field"
+        },
+        field6: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: "Random field"
+        },
+        field7: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: "Random field"
+        },
+        field8: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: "Random field"
+        },
+        field9: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: "Random field"
+        },
+        field10: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: "Random field"
+        },
+        field11: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: "Random field"
+        },
+        field12: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: "Random field"
+        },
+        field13: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: "Random field"
+        },
+        field14: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: "Random field"
+        },
+        field15: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: "Random field"
+        },
+        field16: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: "Random field"
+        },
+    })
+});
+
 var actualUserType = new GraphQLObjectType({
     name: "User_2",
     description: "User creator",
@@ -115,6 +190,12 @@ var schema = new GraphQLSchema({
                 type: new GraphQLList(actualUserType),
                 resolve: (root, {skip, limit}, source, fieldASTs) => {
                     return db.getAllUsers(skip, limit).then(result => {return result});
+                }
+            },
+            gibberish: {
+                type: new GraphQLList(gibberish),
+                resolve: (root, {skip, limit}, source, fieldASTs) => {
+                    return db.getGibberish().then(result => {return result});
                 }
             },
             user: {

@@ -56,13 +56,11 @@ export default class ComparisonPage extends React.Component {
                     <AllQueryFields name="One Field" id={1}/>
                 </Container>
                 <Container>
-                    <AllQueryFields name="Two Fields" id={2}/>
+                    <AllQueryFields name="Eight Fields" id={2}/>
                 </Container>
+
                 <Container>
-                    <AllQueryFields name="Three Fields" id={3}/>
-                </Container>
-                <Container>
-                    <AllQueryFields name="Four Fields" id={4}/>
+                    <AllQueryFields name="One Field (Including REST)" id={3}/>
                 </Container>
             </Root>
         );

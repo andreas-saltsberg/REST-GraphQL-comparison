@@ -65,6 +65,26 @@ function getAllUsers(skip, limit) {
     });
 }
 
+function getGibberish() {
+    return new Promise( (resolve, reject ) => {
+        connect().then( (connection) => {
+            r.db("sample_data").table("gibberish").run(connection).then((cursor) => {
+                return cursor.toArray()
+            }).then( (result) => {
+                resolve(result);
+            }).then(() => {
+                connection.close();
+            }).catch((err) => {
+                connection.close();
+                reject(err);
+            });
+        }).catch((error) => {
+            console.log("Connection error: ", error);
+            reject(error);
+        });
+    });
+}
+
 function getUserById(id) {
     return new Promise( (resolve, reject ) => {
         connect().then( (connection) => {
@@ -88,3 +108,4 @@ function getUserById(id) {
 exports.getUserById = getUserById;
 exports.getFriendsById = getFriendsById;
 exports.getAllUsers = getAllUsers;
+exports.getGibberish = getGibberish;

@@ -2,47 +2,44 @@ import {gql} from "react-apollo";
 
 export const AllFields = gql`
         query RootQueryType {    
-          all_users {
-            first_name
-            last_name
-            profileImage
-            color
-            user_index
-            email
+          gibberish {
+            field1
+            field2
+            field3
+            field4
+            field5
+            field6
+            field7
+            field8
+            field9
+            field10
+            field11
+            field12
+            field13
+            field14
+            field15
+            field16
             id
+        },
+    }`;
+
+export const EightFields = gql`
+        query RootQueryType {    
+          gibberish {
+            field1
+            field2
+            field3
+            field4
+            field5
+            field6
+            field7
+            field8
         },
     }`;
 
 export const OneField = gql`
         query RootQueryType {    
-          all_users {
-            id
-        },
-    }`;
-
-export const TwoFields = gql`
-        query RootQueryType {    
-          all_users {
-            first_name
-            last_name
-        },
-    }`;
-
-export const ThreeFields = gql`
-        query RootQueryType {    
-          all_users {
-            first_name
-            last_name
-            profileImage
-        },
-    }`;
-
-export const FourFields = gql`
-        query RootQueryType {    
-          all_users {
-            first_name
-            last_name
-            profileImage
-            color
+          gibberish {
+             field1
         },
     }`;
