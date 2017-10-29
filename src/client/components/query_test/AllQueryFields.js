@@ -70,6 +70,21 @@ export default class AllQueryFields extends React.Component {
         });
     }
 
+    async fetchWithRESTAsync() {
+
+        const start = performance.now();
+        this.setState({
+            requesting: true
+        });
+        axios.get("http://localhost:3000/api/getAllUsers").then(result => {
+            const end = performance.now();
+            this.setState({
+                RESTBtnName: "REST: " + (end-start) + " ms, " + result.data.length + " rows",
+                requesting: false
+            });
+        });
+    }
+
     render() {
         return (
             <div>
