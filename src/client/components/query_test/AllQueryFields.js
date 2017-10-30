@@ -57,9 +57,11 @@ export default class AllQueryFields extends React.Component {
     }
 
     fetchWithREST() {
+        const id = this.props.id;
+        const apiUrl = id === 3 ? "http://localhost:3000/api/gibberish/one" : "http://localhost:3000/api/gibberish";
         return new Promise(function(resolve) {
             const start = performance.now();
-            axios.get("http://localhost:3000/api/gibberish").then(result => {
+            axios.get(apiUrl).then(result => {
                 const end = performance.now();
                 resolve({time: (end - start), bytes: (JSON.stringify(result.data).length / 1024 / 1024).toFixed(2)});
             });
@@ -73,8 +75,6 @@ export default class AllQueryFields extends React.Component {
         });
         this.fetchWithREST().then(result => {
             this.fetchWithGraphQl().then(result2 => {
-                console.log(result2)
-                console.log(result)
 
                 this.setState({
                     requesting: false,
@@ -98,8 +98,8 @@ export default class AllQueryFields extends React.Component {
                         <BarChart data={[  {name: 'GraphQL', time: this.state.graphQlTime, size: parseFloat(this.state.graphQlBytes)},
                             {name: 'REST', time: this.state.restTime, size: parseFloat(this.state.restBytes)},]}>
                             <XAxis dataKey="name"/>
-                            <YAxis yAxisId="left" orientation="left" stroke="#8884d8"/>
-                            <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
+                            <YAxis yAxisId="left" orientation="left" stroke="#8884d8" label={({ viewBox }) => <AxisLabel axisType="yAxis" {...viewBox}>Time (ms)</AxisLabel>} />
+                            <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" label={({ viewBox }) => <AxisLabel axisType="yAxis" {...viewBox}>Size (MB)</AxisLabel>}/>
                             <CartesianGrid strokeDasharray="3 3"/>
                             <Tooltip/>
                             <Legend />
@@ -112,3 +112,60 @@ export default class AllQueryFields extends React.Component {
         );
     }
 }
+
+function renderText(child, x, y, rotate, stroke, key) {
+    if (child && child.content) {
+        return (<text
+            key={key}
+            x={x}
+            y={y}
+            transform={`rotate(${rotate})`}
+            textAnchor="middle"
+            stroke={stroke}
+            {...child.props}>
+            {child.content}
+        </text>);
+    }
+
+    return (<text
+        key={key}
+        x={x}
+        y={y}
+        transform={`rotate(${rotate})`}
+        textAnchor="middle"
+        stroke={stroke}>{child}</text>);
+}
+
+export function AxisLabel({ axisType, x, y, width, height, stroke, children }) {
+    const isVert = axisType === 'yAxis';
+    const cx = isVert ? x + 30: x + (width / 2);
+    const cy = isVert ? (height / 2) + y : y + height;
+    const rot = isVert ? `270 ${cx} ${cy}` : 0;
+    const lineHeight = 20;
+
+    if (children.length > 1 && children.map) {
+        return (<g>
+            {children.map((child, index) =>
+                renderText(
+                    child,
+                    cx,
+                    cy + index * lineHeight,
+                    rot,
+                    stroke,
+                    index)
+            )}
+        </g>);
+    }
+
+    return renderText(children, cx, cy, rot, stroke);
+}
+
+AxisLabel.propTypes = {
+    axisType: React.PropTypes.oneOf(['yAxis', 'xAxis']),
+    x: React.PropTypes.number,
+    y: React.PropTypes.number,
+    width: React.PropTypes.number,
+    height: React.PropTypes.number,
+    stroke: React.PropTypes.string,
+    children: React.PropTypes.any,
+};

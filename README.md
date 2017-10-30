@@ -12,3 +12,9 @@ localhost:3000 on backend
 localhost:8080 on rethinkdb   
 localhost:3000/graphql on graphiql UI  
 localhost:3000/api/products on REST test  
+
+Create table
+
+r.db("sample_data").tableCreate("gibberish")
+
+Open browser and go to localhost:3000/api/generate-gibberish and wait for the page to load

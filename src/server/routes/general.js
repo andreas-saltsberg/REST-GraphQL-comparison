@@ -60,6 +60,16 @@ router.get("/gibberish", (request, response) => {
     db.getGibberish().then(result => response.send(result));
 });
 
+router.get("/gibberish/one", (request, response) => {
+    db.getGibberish().then(result => {
+
+        const mapped = result.map(function (item) {
+            return {field1: item.field1}
+        });
+        response.send(mapped);
+    });
+});
+
 function generateUsers(firstNames, lastNames, colors, profileImages) {
     var users = [];
     var index = 0;
