@@ -5,11 +5,8 @@ import {
     Route
 } from 'react-router-dom'
 import './App.css';
-import Home from "./containers/Home";
 
 import { ApolloClient, createNetworkInterface, ApolloProvider } from 'react-apollo';
-import AllUsersList from "./components/AllUsersList";
-import MasonryList from "./components/MasonryList";
 import ComparisonPage from "./containers/ComparisonPage";
 
 export const client = new ApolloClient({
@@ -27,9 +24,7 @@ const App = () => (
     <ApolloProvider client={client}>
         <BrowserRouter>
             <div>
-                <Route exact path="/" component={Home}/>
-                <Route exact path="/masonry" component={MasonryList}/>
-                <Route exact path="/comparison" component={ComparisonPage}/>
+                <Route path="/" component={ComparisonPage}/>
             </div>
         </BrowserRouter>
     </ApolloProvider>

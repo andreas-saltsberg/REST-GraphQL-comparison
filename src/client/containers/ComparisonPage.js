@@ -3,6 +3,14 @@ import React from 'react';
 import styled from "styled-components"
 import AllQueryFields from "../components/query_test/AllQueryFields";
 
+const Rest = styled.span`
+    color: rgb(136, 132, 216);
+`;
+
+const Graphql =  styled.span`
+    color: rgb(130, 202, 157);
+`;
+
 const Root = styled.div`
     display: grid;
     grid-gap: 25px;
@@ -47,7 +55,7 @@ export default class ComparisonPage extends React.Component {
         return (
             <Root>
                 <Header>
-                    <h2>REST vs GraphQL</h2>
+                    <h2><Rest>REST</Rest> vs <Graphql>GraphQL</Graphql></h2>
                 </Header>
                 <Container>
                     <AllQueryFields name="All Fields" id={10}/>

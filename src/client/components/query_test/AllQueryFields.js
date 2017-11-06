@@ -92,8 +92,8 @@ export default class AllQueryFields extends React.Component {
             <div>
                 <Segment raised>
                     <h3>{this.props.name}</h3>
-                    <Progress percent={100} indicating={this.state.requesting} />
-                    <Button color="blue" onClick={this.compare}>Compare</Button>
+                    <Progress percent={100} indicating={this.state.requesting} size="small"/>
+                    <Button color="blue" onClick={this.compare} loading={this.state.requesting}>Compare</Button>
                     <ResponsiveContainer width='100%' aspect={4.0/1.0}>
                         <BarChart data={[  {name: 'GraphQL', time: this.state.graphQlTime, size: parseFloat(this.state.graphQlBytes)},
                             {name: 'REST', time: this.state.restTime, size: parseFloat(this.state.restBytes)},]}>
